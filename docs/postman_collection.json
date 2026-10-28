@@ -1,0 +1,937 @@
+{
+  "info": {
+    "name": "B.Tech eKart API",
+    "description": "Complete REST collection for the B.Tech eKart backend (AKTU digital study material). Import into Postman, set the `baseUrl` variable, then run the Auth folder to capture the JWT automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000", "type": "string" },
+    { "key": "access", "value": "", "type": "string" },
+    { "key": "refresh", "value": "", "type": "string" },
+    { "key": "orderNumber", "value": "", "type": "string" },
+    { "key": "productSlug", "value": "", "type": "string" },
+    { "key": "orderItemId", "value": "", "type": "string" },
+    { "key": "customerId", "value": "", "type": "string" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{access}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Core",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/health/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.access) { pm.collectionVariables.set('access', j.access); pm.collectionVariables.set('refresh', j.refresh); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newstudent@example.com\",\n  \"name\": \"New Student\",\n  \"phone\": \"9876543210\",\n  \"password\": \"StrongPass1\",\n  \"password2\": \"StrongPass1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register", ""]
+            }
+          }
+        },
+        {
+          "name": "Login (customer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.access) { pm.collectionVariables.set('access', j.access); pm.collectionVariables.set('refresh', j.refresh); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@btechekart.com\",\n  \"password\": \"Student@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login", ""]
+            }
+          }
+        },
+        {
+          "name": "Login (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.access) { pm.collectionVariables.set('access', j.access); pm.collectionVariables.set('refresh', j.refresh); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@btechekart.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login", ""]
+            }
+          }
+        },
+        {
+          "name": "Refresh token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/token/refresh/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "token", "refresh", ""]
+            }
+          }
+        },
+        {
+          "name": "Profile (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile", ""]
+            }
+          }
+        },
+        {
+          "name": "Profile (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Demo Student\",\n  \"college\": \"IET Lucknow\",\n  \"branch\": \"CSE\",\n  \"year\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/profile/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "profile", ""]
+            }
+          }
+        },
+        {
+          "name": "Forgot password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@btechekart.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/password/forgot/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "password", "forgot", ""]
+            }
+          }
+        },
+        {
+          "name": "Reset password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@btechekart.com\",\n  \"otp\": \"123456\",\n  \"password\": \"NewStrong1\",\n  \"password2\": \"NewStrong1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/password/reset/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "password", "reset", ""]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/categories/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "categories", ""]
+            }
+          }
+        },
+        {
+          "name": "Branches",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/branches/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "branches", ""]
+            }
+          }
+        },
+        {
+          "name": "Subjects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/subjects/?branch__short_name=CSE&semester=3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "subjects", ""],
+              "query": [
+                { "key": "branch__short_name", "value": "CSE" },
+                { "key": "semester", "value": "3" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Banners",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/banners/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "banners", ""]
+            }
+          }
+        },
+        {
+          "name": "Products (filtered + sorted)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.results && j.results[0]) pm.collectionVariables.set('productSlug', j.results[0].slug);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/products/?branch__short_name=CSE&semester=3&type=notes&ordering=-price&page=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "products", ""],
+              "query": [
+                { "key": "branch__short_name", "value": "CSE" },
+                { "key": "semester", "value": "3" },
+                { "key": "type", "value": "notes" },
+                { "key": "ordering", "value": "-price" },
+                { "key": "page", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Products (search)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/products/?q=network",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "products", ""],
+              "query": [{ "key": "q", "value": "network" }]
+            }
+          }
+        },
+        {
+          "name": "Product detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/products/{{productSlug}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "catalog", "products", "{{productSlug}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Product preview PDF",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/catalog/products/{{productSlug}}/preview/",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "catalog",
+                "products",
+                "{{productSlug}}",
+                "preview",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart & Wishlist",
+      "item": [
+        {
+          "name": "Get cart",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", ""]
+            }
+          }
+        },
+        {
+          "name": "Add to cart",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/add/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", "add", ""]
+            }
+          }
+        },
+        {
+          "name": "Update cart item",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": 2\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/items/1/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", "items", "1", ""]
+            }
+          }
+        },
+        {
+          "name": "Remove cart item",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/cart/items/1/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cart", "items", "1", ""]
+            }
+          }
+        },
+        {
+          "name": "Get wishlist",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "wishlist", ""]
+            }
+          }
+        },
+        {
+          "name": "Add to wishlist",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"product_id\": 1\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/add/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "wishlist", "add", ""]
+            }
+          }
+        },
+        {
+          "name": "Move wishlist → cart",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"product_id\": 1\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/wishlist/move-to-cart/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "wishlist", "move-to-cart", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Apply coupon",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"code\": \"WELCOME10\"\n}" },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/coupon/apply/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "coupon", "apply", ""]
+            }
+          }
+        },
+        {
+          "name": "Checkout (Razorpay)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.order_number) pm.collectionVariables.set('orderNumber', j.order_number);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_method\": \"razorpay\",\n  \"coupon_code\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/checkout/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "checkout", ""]
+            }
+          }
+        },
+        {
+          "name": "Checkout (Manual QR)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.order_number) pm.collectionVariables.set('orderNumber', j.order_number);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"payment_method\": \"manual_qr\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/checkout/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "checkout", ""]
+            }
+          }
+        },
+        {
+          "name": "My orders",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", ""]
+            }
+          }
+        },
+        {
+          "name": "Order detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderNumber}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "{{orderNumber}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Submit manual payment (UTR)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"utr_number\": \"UTR123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderNumber}}/manual-payment/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "{{orderNumber}}", "manual-payment", ""]
+            }
+          }
+        },
+        {
+          "name": "Download invoice (paid)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/orders/{{orderNumber}}/invoice/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "orders", "{{orderNumber}}", "invoice", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Razorpay create order",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_number\": \"{{orderNumber}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/razorpay/create/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "razorpay", "create", ""]
+            }
+          }
+        },
+        {
+          "name": "Razorpay verify signature",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_number\": \"{{orderNumber}}\",\n  \"razorpay_order_id\": \"order_xxx\",\n  \"razorpay_payment_id\": \"pay_xxx\",\n  \"razorpay_signature\": \"signature_from_client\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/razorpay/verify/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "razorpay", "verify", ""]
+            }
+          }
+        },
+        {
+          "name": "Razorpay webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Razorpay-Signature", "value": "webhook_signature" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"evt_test_1\",\n  \"event\": \"payment.captured\",\n  \"payload\": { \"payment\": { \"entity\": { \"id\": \"pay_xxx\", \"order_id\": \"order_xxx\", \"method\": \"upi\", \"notes\": { \"order_number\": \"{{orderNumber}}\" } } } }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/razorpay/webhook/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "razorpay", "webhook", ""]
+            }
+          }
+        },
+        {
+          "name": "Manual QR details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/manual/{{orderNumber}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", "manual", "{{orderNumber}}", ""]
+            }
+          }
+        },
+        {
+          "name": "My payments",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/payments/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payments", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Library",
+      "item": [
+        {
+          "name": "My library",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.results && j.results[0]) pm.collectionVariables.set('orderItemId', String(j.results[0].order_item_id));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/library/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "library", ""]
+            }
+          }
+        },
+        {
+          "name": "Secure PDF download (needs signed token from library)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/library/download/{{orderItemId}}/?token=<signed_token>",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "library", "download", "{{orderItemId}}", ""],
+              "query": [{ "key": "token", "value": "<signed_token>" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Product reviews",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/product/{{productSlug}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews", "product", "{{productSlug}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Create review (buyers only)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product\": 1,\n  \"rating\": 5,\n  \"title\": \"Great notes\",\n  \"comment\": \"Very helpful for my exams.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/product/{{productSlug}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews", "product", "{{productSlug}}", ""]
+            }
+          }
+        },
+        {
+          "name": "My reviews",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/mine/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reviews", "mine", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "item": [
+        {
+          "name": "Blog categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/blog/categories/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog", "categories", ""]
+            }
+          }
+        },
+        {
+          "name": "Blog posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/blog/posts/?q=aktu",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog", "posts", ""],
+              "query": [{ "key": "q", "value": "aktu" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Dashboard",
+      "item": [
+        {
+          "name": "Overview stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/overview/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "overview", ""]
+            }
+          }
+        },
+        {
+          "name": "Revenue chart (daily)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/revenue/?period=daily&days=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "revenue", ""],
+              "query": [
+                { "key": "period", "value": "daily" },
+                { "key": "days", "value": "30" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Customers list",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json();",
+                  "if (j.results && j.results[0]) pm.collectionVariables.set('customerId', String(j.results[0].id));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/customers/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "customers", ""]
+            }
+          }
+        },
+        {
+          "name": "Customer detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/customers/{{customerId}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "customers", "{{customerId}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Orders (needs review)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/orders/?needs_review=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "orders", ""],
+              "query": [{ "key": "needs_review", "value": "true" }]
+            }
+          }
+        },
+        {
+          "name": "Order detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/orders/{{orderNumber}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "orders", "{{orderNumber}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Approve manual payment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"UTR verified\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/orders/{{orderNumber}}/approve/",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "dashboard",
+                "orders",
+                "{{orderNumber}}",
+                "approve",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject manual payment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"UTR not found\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/orders/{{orderNumber}}/reject/",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "dashboard",
+                "orders",
+                "{{orderNumber}}",
+                "reject",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark refunded",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Customer requested\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/orders/{{orderNumber}}/refund/",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "api",
+                "dashboard",
+                "orders",
+                "{{orderNumber}}",
+                "refund",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export orders CSV",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/export/orders/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "export", "orders", ""]
+            }
+          }
+        },
+        {
+          "name": "Export customers CSV",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/export/customers/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "export", "customers", ""]
+            }
+          }
+        },
+        {
+          "name": "Export sales CSV",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/export/sales/",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "dashboard", "export", "sales", ""]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+# ---- Python / Django (backend) ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+db.sqlite3
+db.sqlite3-journal
+/backend/media/
+/backend/media_private/
+/backend/staticfiles/
+/backend/schema.yml
+*.sqlite3
+
+# ---- Node (web / mobile) ----
+node_modules/
+dist/
+dist-ssr/
+build/
+.vite/
+.expo/
+.expo-shared/
+web-build/
+*.tsbuildinfo
+coverage/
+
+# ---- Env & secrets (NEVER commit) ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+local.properties
+login.json
+
+# ---- Logs & runtime artifacts ----
+*.log
+npm-debug.log*
+yarn-error.log*
+*.pid
+django.log
+vite.log
+api.log
+runserver.log
+server_out.log
+server_err.log
+django.err.log
+vite_err.log
+*.err.log
+build_debug.log
+build_debug.err
+
+# ---- Local scratch / QA screenshots (repo root + mobile) ----
+/_scratch_*.mjs
+/ui*.xml
+*.png
+!web/src/assets/**/*.png
+!web/public/**/*.png
+!mobile/assets/**/*.png
+
+# ---- Android / iOS native build outputs ----
+/mobile/android/.gradle/
+/mobile/android/app/build/
+/mobile/android/build/
+/mobile/android/local.properties
+/mobile/android/app/release/
+/mobile/android/app/debug/
+/mobile/ios/
+*.apk
+*.aab
+*.keystore
+
+# ---- Editors / OS ----
+.vscode/*
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
